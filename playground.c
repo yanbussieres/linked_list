@@ -16,8 +16,8 @@ struct list_item{
 
 void append(struct list_item *first, int x);
 void print(struct list_item *first);
-void prepend(struct list_item *first, int x);
-void input_sorted(struct list_item *first);
+// void prepend(struct list_item *first, int x);
+// void input_sorted(struct list_item *first);
 void swap(struct list_item *a, struct list_item *b);  // Function used too swap 2 nodes. Used in the input_sorted function.
 void clear_list(struct list_item *first);
 
@@ -28,13 +28,19 @@ int main()
 {
 
     //
-    struct list_item * root;
+    struct list_item root;
     //
-    root = (struct list_item*)malloc(sizeof(struct list_item));
-    append(root, 1);
-    clear_list(root);
+    //root = (struct list_item*)malloc(sizeof(struct list_item));
+    root.value = -1;
+    root.next = NULL;
+    append(&root, 4545);
+    append(&root, 4);
+    append(&root, 32);
+    clear_list(&root);
+    print(&root);
+    //clear_list(root);
 
-    free(root);
+    //free(root);
 
     return 0;
 };
@@ -74,32 +80,34 @@ void append(struct list_item *first, int x) //,
    // current->next = malloc(sizeof(struct list_item));
     current->next->value = x;
     current->next->next = NULL;
+    //free(current->next);
 }
 
 
 
 void print(struct list_item *first) {
     if (first->next==NULL){
-        printf("Nothing to print! The list is empty!\n");
+        //printf("Nothing to print! The list is empty!\n");
     }
+    else{
+      struct list_item * current = first->next;
 
-    struct list_item * current = first->next;
-
-    while (current != NULL) {
-        printf("%d\n", current->value);
-        current = current->next; // (*current).next
+      while (current != NULL) {
+          printf("%d\n", current->value);
+          current = current->next; // (*current).next
+      }
     }
 }
 
-void prepend(struct list_item *first, int x){
-    struct list_item * new_item;
-    new_item = (struct list_item*)malloc(sizeof(struct list_item));
-
-    new_item->value = x;
-    new_item->next = first->next;
-    first->next = new_item;
-    first = new_item;
-    }
+// void prepend(struct list_item *first, int x){
+//     struct list_item * new_item;
+//     new_item = (struct list_item*)malloc(sizeof(struct list_item));
+//
+//     new_item->value = x;
+//     new_item->next = first->next;
+//     first->next = new_item;
+//     first = new_item;
+//     }
 
 // void input_sorted(struct list_item *first)
 // {
@@ -133,13 +141,13 @@ void prepend(struct list_item *first, int x){
 // }
 //
 // /* function to swap list_item of two list_items a and b*/
-// void swap(struct list_item *a, struct list_item *b)
-// {
-//     int temp = a->value;
-//     a->value = b->value;
-//     b->value = temp;
-// }
-//
+void swap(struct list_item *a, struct list_item *b)
+{
+    int temp = a->value;
+    a->value = b->value;
+    b->value = temp;
+}
+
 
 //    void freeList(struct node* head)
 //    {

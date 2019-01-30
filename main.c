@@ -28,12 +28,6 @@ int main()
 {
     struct list_item * root;
     root = (struct list_item*)malloc(sizeof(struct list_item));
-
-
-    struct list_item * root;
-
-    root = (struct list_item*)malloc(sizeof(struct list_item));
-
     root->value = -1;
     root->next = NULL;
 
@@ -56,30 +50,30 @@ int main()
    // print(&root);
 
     //test clear
-    clear_list(root);
-    print(root);
-
-    //test re-using append/prepend after clearing list
-    append(root, 6);
-    append(root, 5);
-    prepend(root, -4);
-    append(root, 4);
-    prepend(root, -3);
-    print(root);
-
-    //test input_sorted after using clear
-    input_sorted(root);
-    print(root);
-
-    //re-testing clear, adding a new list with prepend/append, sort it out.
-    clear_list(root);
-    append(root, 22);
-    append(root, 312);
-    prepend(root, -32321);
-    append(root, 3293);
-    prepend(root, 0);
-    input_sorted(root);
-    print(root);
+    // clear_list(root);
+    // print(root);
+    //
+    // //test re-using append/prepend after clearing list
+    // append(root, 6);
+    // append(root, 5);
+    // prepend(root, -4);
+    // append(root, 4);
+    // prepend(root, -3);
+    // print(root);
+    //
+    // //test input_sorted after using clear
+    // input_sorted(root);
+    // print(root);
+    //
+    // //re-testing clear, adding a new list with prepend/append, sort it out.
+    // clear_list(root);
+    // append(root, 22);
+    // append(root, 312);
+    // prepend(root, -32321);
+    // append(root, 3293);
+    // prepend(root, 0);
+    // input_sorted(root);
+    // print(root);
 
 
     return 0;
