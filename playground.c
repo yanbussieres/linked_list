@@ -24,8 +24,7 @@ void clear_list(struct list_item *first);
 int list_size = 0;
 
 
-int main()
-{
+int main(int argc, char *argv[]){
 
     //
     struct list_item root;
@@ -33,11 +32,29 @@ int main()
     //root = (struct list_item*)malloc(sizeof(struct list_item));
     root.value = -1;
     root.next = NULL;
-    append(&root, 4545);
-    append(&root, 4);
-    append(&root, 32);
+
+    struct list_item * lol;
+    lol = (struct list_item*)malloc(sizeof(struct list_item));
+
+    lol->value = 101;
+    lol->next = NULL;
+    free(lol);
+
+
+    append(&root, 1);
+    append(&root, 2);
+    append(&root, 3);
+    print(&root);
     clear_list(&root);
     print(&root);
+    //root.next = (struct list_item*)malloc(sizeof(struct list_item));
+    //free(root.next);
+    // append(&root, 2);
+    // free(root.next);
+    //
+    // print(&root);
+    // clear_list(&root);
+    // print(&root);
     //clear_list(root);
 
     //free(root);
@@ -47,24 +64,13 @@ int main()
 
 void clear_list(struct list_item *first)
 {
+   struct list_item *current = first;
 
-  struct list_item *tmp;
-  while(first != NULL){
-    tmp= first;
-    first = first->next;
-    free(tmp);
-  }
-  struct list_item *current = first;
-  struct list_item *next;
-
-
-  while (current->next != NULL)
-  {
-    //next = *current->next;
-    //free(current->next);
-    free(current->next);
-    current = next;
-  }
+    while(current->next != NULL){
+      struct list_item *temp = current->next->next;
+      free(current->next);
+      current->next = temp;
+   }
 }
 
 void append(struct list_item *first, int x) //,
@@ -74,20 +80,16 @@ void append(struct list_item *first, int x) //,
         current = current->next;
     }
 
-    /* now we can add a new variable */
     current->next = (struct list_item*)malloc(sizeof(struct list_item));
-
-   // current->next = malloc(sizeof(struct list_item));
     current->next->value = x;
     current->next->next = NULL;
-    //free(current->next);
 }
 
 
 
 void print(struct list_item *first) {
     if (first->next==NULL){
-        //printf("Nothing to print! The list is empty!\n");
+        printf("Nothing to print! The list is empty!\n");
     }
     else{
       struct list_item * current = first->next;
