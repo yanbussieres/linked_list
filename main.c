@@ -24,118 +24,135 @@ void clear_list(struct list_item *first);
 int list_size = 0;
 
 
-int main()
-{
-    struct list_item * root;
-    root = (struct list_item*)malloc(sizeof(struct list_item));
-    root->value = -1;
-    root->next = NULL;
+int main(int argc, char *argv[]){
 
-    /*Multiple tests in order to see if all functions are working correctly
-     */
-
-    //test print
-    print(root);
-
-    //test append/prepend
-    //append(&root, 3);
-    //append(&root, 2);
-    //prepend(&root, -2);
-    //append(&root, 1);
-    //prepend(&root, -1);
-    //print(&root);
-
-    //test sorted_list
-    //input_sorted(&root);
-   // print(&root);
-
-    //test clear
-    // clear_list(root);
-    // print(root);
     //
-    // //test re-using append/prepend after clearing list
-    // append(root, 6);
-    // append(root, 5);
-    // prepend(root, -4);
-    // append(root, 4);
-    // prepend(root, -3);
-    // print(root);
+    struct list_item root;
     //
-    // //test input_sorted after using clear
-    // input_sorted(root);
-    // print(root);
-    //
-    // //re-testing clear, adding a new list with prepend/append, sort it out.
-    // clear_list(root);
-    // append(root, 22);
-    // append(root, 312);
-    // prepend(root, -32321);
-    // append(root, 3293);
-    // prepend(root, 0);
-    // input_sorted(root);
-    // print(root);
+    //root = (struct list_item*)malloc(sizeof(struct list_item));
+    root.value = -1;
+    root.next = NULL;
+
+    struct list_item * lol;
+    lol = (struct list_item*)malloc(sizeof(struct list_item));
+
+    lol->value = 101;
+    lol->next = NULL;
+    free(lol);
 
 
+    append(&root, 1);
+    append(&root, 2);
+    append(&root, 3);
+    prepend(&root, -3);
+    print(&root);
+    clear_list(&root);
+    print(&root);
+
+    append(&root, 1);
+    print(&root);
+    append(&root, 2);
+    prepend(&root, -3);
+    append(&root, 3);
+    print(&root);
+    clear_list(&root);
+
+    prepend(&root, -3);
+    append(&root, 9);
+    append(&root, 7);
+    append(&root, 5);
+    input_sorted(&root);
+    print(&root);
+    clear_list(&root);
+    print(&root);
+    input_sorted(&root);
     return 0;
 };
 
+void clear_list(struct list_item *first)
+{
+   struct list_item *current = first;
+
+    while(current->next != NULL){
+      struct list_item *temp = current->next->next;
+      free(current->next);
+      current->next = temp;
+   }
+   printf("The list is clear WITHOUT ANY MEMORY LEAKS!!! Party !\n");
+}
+
 void append(struct list_item *first, int x) //,
 {
-
-    /* now we can add a new variable */
-    struct list_item * current;
-    current = (struct list_item*)malloc(sizeof(struct list_item));
-
+    struct list_item * current = first;
     while (current->next != NULL) {
         current = current->next;
     }
-
-    /* now we can add a new variable */
     current->next = (struct list_item*)malloc(sizeof(struct list_item));
-
-   // current->next = malloc(sizeof(struct list_item));
     current->next->value = x;
     current->next->next = NULL;
-
 }
 
-void clear_list(struct list_item *first)
+
+
+void print(struct list_item *first) {
+    if (first->next==NULL){
+        printf("Nothing to print! The list is empty!\n");
+    }
+    else{
+      struct list_item * current = first->next;
+
+      while (current != NULL) {
+          printf("%d\n", current->value);
+          current = current->next; // (*current).next
+      }
+    }
+}
+
+void prepend(struct list_item *first, int x){
+    struct list_item * new_item;
+    new_item = (struct list_item*)malloc(sizeof(struct list_item));
+
+    new_item->value = x;
+    new_item->next = first->next;
+    first->next = new_item;
+    first = new_item;
+     }
+
+void input_sorted(struct list_item *first)
 {
+    int swapped;
+    struct list_item *ptr1;
+    struct list_item *lptr = NULL;
 
-    struct list_item *tmp;
-    while(first != NULL){
-        tmp= first;
-        first = first->next;
-        free(tmp);
+    /* Checking for empty list */
+    if (first->next == NULL){
+        printf("Cannot sort an empty list ! \n");
+        return;
     }
-//    struct list_item *current = first;
-//    struct list_item *next;
-//
-//
-//    while (current->next != NULL)
-//    {
-//        //next = *current->next;
-//        //free(current->next);
-//        free(current->next);
-//        current = next;
+    printf("The list stored in memory has been sorted\n");
+    do
+    {
+        swapped = 0;  // Acting as a boolen.
+        ptr1 = first->next;    // first->next in order to avoid the first element.
+
+        while (ptr1->next != lptr)
+        {
+            if (ptr1->value > ptr1->next->value)
+            {
+                swap(ptr1, ptr1->next);
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
     }
+    while (swapped);
+}
 
-//    void freeList(struct node* head)
-//    {
-//        struct node* tmp;
-//
-//        while (head != NULL)
-//        {
-//            tmp = head;
-//            head = head->next;
-//            free(tmp);
-//        }
-//
-//    }
-
-    // Allocate the value NULL to the attribut *next of the first element
-    // Note: At this point, the first element (root) is going to be the unique element of the list.
-//    first->next = NULL;
-//    current = NULL;
-//    printf("The list has been clear !\n");
-//}
+// /* function to swap list_item of two list_items a and b*/
+void swap(struct list_item *a, struct list_item *b)
+{
+    int temp = a->value;
+    a->value = b->value;
+    b->value = temp;
+}
