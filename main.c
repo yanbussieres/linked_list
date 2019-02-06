@@ -17,6 +17,7 @@ struct list_item{
 void append(struct list_item *first, int x);
 void print(struct list_item *first);
 void prepend(struct list_item *first, int x);
+void real_input_sorted(struct list_item *first, int x);
 void input_sorted(struct list_item *first);
 void swap(struct list_item *a, struct list_item *b);  // Function used too swap 2 nodes. Used in the input_sorted function.
 void clear_list(struct list_item *first);
@@ -33,13 +34,14 @@ int main(int argc, char *argv[]){
     root.value = -1;
     root.next = NULL;
 
-    struct list_item * lol;
-    lol = (struct list_item*)malloc(sizeof(struct list_item));
+    real_input_sorted(&root, 2);
+    append(&root, 1);
+    append(&root, 3);
+    append(&root, 4);
+    append(&root, 1);
 
-    lol->value = 101;
-    lol->next = NULL;
-    free(lol);
-
+    //real_input_sorted(&root, 2);
+    print(&root);
 
     append(&root, 1);
     append(&root, 2);
@@ -61,6 +63,7 @@ int main(int argc, char *argv[]){
     append(&root, 9);
     append(&root, 7);
     append(&root, 5);
+    real_input_sorted(&root, -100);
     input_sorted(&root);
     print(&root);
     clear_list(&root);
@@ -90,6 +93,26 @@ void append(struct list_item *first, int x) //,
     current->next = (struct list_item*)malloc(sizeof(struct list_item));
     current->next->value = x;
     current->next->next = NULL;
+}
+
+void real_input_sorted(struct list_item *first, int x) //,
+{
+
+  struct list_item * current = first;
+  struct list_item * next_item = current->next;
+
+  if (current->next == NULL) {
+    append(first, x);
+  }
+  else{
+    while (next_item->value < x) {
+      next_item = next_item->next;
+      current = current->next;
+      }
+       current->next = (struct list_item*)malloc(sizeof(struct list_item));
+       current->next->value = x;
+       current->next->next = next_item;
+     }
 }
 
 
